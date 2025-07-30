@@ -72,20 +72,7 @@ export function renderHtml(content: string) {
             color: #999;
             padding: 10px;
           }
-          .database-content {
-            margin: 20px 5%;
-            background: #fff;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,.1);
-            text-align: left;
-          }
-          pre {
-            overflow-x: auto;
-            background: #f8f8f8;
-            padding: 10px;
-            border-radius: 4px;
-          }
+
         </style>
       </head>
       <body>
