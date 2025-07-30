@@ -79,7 +79,7 @@ export function renderHtml(content: string) {
         <div class="header">30-Second Installation Tutorial</div>
         
         <div class="video">
-          <iframe src="https://www.youtube.com/embed/your-video-id" frameborder="0" allowfullscreen></iframe>
+          <iframe src="https://www.youtube.com/embed/sJKB-TR2x2o?si=co-KQdhE3237MUl3" frameborder="0" allowfullscreen></iframe>
         </div>
         
         <div class="gift">
