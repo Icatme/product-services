@@ -15,8 +15,9 @@ export default {
       }
       
       try {
-        const stmt = env.DB.prepare("INSERT OR IGNORE INTO emails (email, source) VALUES (?, ?)");
-        await stmt.bind(email, source).run();
+        await env.DB.prepare("INSERT OR IGNORE INTO emails (email, source) VALUES (?, ?)")
+          .bind(email, source)
+          .run();
         
         return new Response("Email submitted successfully", {
           status: 200,
@@ -27,10 +28,25 @@ export default {
         });
       } catch (error) {
         console.error("Database error:", error);
-        return new Response("Failed to save email"+email, { status: 500 });
+        return new Response("Failed to save email: " + email + " Error: " + (error instanceof Error ? error.message : String(error)), { status: 500 });
       }
     }
     
+    // Debug endpoint to check database
+    if (url.pathname === "/debug") {
+      try {
+        const tables = await env.DB.prepare("SELECT name FROM sqlite_master WHERE type='table'").all();
+        const emails = await env.DB.prepare("SELECT COUNT(*) as count FROM emails").all();
+        return new Response(JSON.stringify({ tables, emails }, null, 2), {
+          headers: { "content-type": "application/json" }
+        });
+      } catch (error) {
+        return new Response("Debug error: " + (error instanceof Error ? error.message : String(error)), {
+          headers: { "content-type": "text/plain" }
+        });
+      }
+    }
+
     // Handle main page
     const stmt = env.DB.prepare("SELECT * FROM comments LIMIT 3");
     const { results } = await stmt.all();
