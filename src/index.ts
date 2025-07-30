@@ -19,11 +19,10 @@ export default {
           .bind(email, source)
           .run();
         
-        return new Response("Email submitted successfully", {
+        return new Response("<html><body><h1>Email submitted successfully</h1><p>Redirecting to home page...</p><script>setTimeout(() => window.location.href='/', 2000)</script></body></html>", {
           status: 200,
           headers: {
-            "content-type": "text/html",
-            "Refresh": "2; url=/",
+            "content-type": "text/html; charset=utf-8",
           },
         });
       } catch (error) {
@@ -37,7 +36,12 @@ export default {
       try {
         const tables = await env.DB.prepare("SELECT name FROM sqlite_master WHERE type='table'").all();
         const emails = await env.DB.prepare("SELECT COUNT(*) as count FROM emails").all();
-        return new Response(JSON.stringify({ tables, emails }, null, 2), {
+        const recentEmails = await env.DB.prepare("SELECT email, created_at FROM emails ORDER BY created_at DESC LIMIT 5").all();
+        return new Response(JSON.stringify({ 
+          tables: tables.results || [], 
+          email_count: emails.results?.[0]?.count || 0,
+          recent_emails: recentEmails.results || []
+        }, null, 2), {
           headers: { "content-type": "application/json" }
         });
       } catch (error) {
@@ -47,11 +51,8 @@ export default {
       }
     }
 
-    // Handle main page
-    const stmt = env.DB.prepare("SELECT * FROM comments LIMIT 3");
-    const { results } = await stmt.all();
-
-    return new Response(renderHtml(JSON.stringify(results, null, 2)), {
+    // Handle main page - show installation tutorial page
+    return new Response(renderHtml(""), {
       headers: {
         "content-type": "text/html",
       },
