@@ -105,11 +105,6 @@ export function renderHtml(content: string) {
           </form>
         </div>
         
-        <div class="database-content">
-          <h3>数据库内容</h3>
-          <pre><code><span style="color: #0E838F">&gt; </span>SELECT * FROM comments LIMIT 3;<br>${content}</code></pre>
-        </div>
-        
         <div class="footer">© 2025 YourBrand All Rights Reserved</div>
       </body>
     </html>
