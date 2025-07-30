@@ -27,7 +27,7 @@ export default {
         });
       } catch (error) {
         console.error("Database error:", error);
-        return new Response("Failed to save email", { status: 500 });
+        return new Response("Failed to save email"+email, { status: 500 });
       }
     }
     
